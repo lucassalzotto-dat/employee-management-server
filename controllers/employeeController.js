@@ -53,7 +53,7 @@ exports.updateEmployee = async (req, res) => {
   }
 };
 
-// Eliminar un empleado (solo para admin)
+// Eliminar un empleado (solo para admin), incluyendo sus horarios
 exports.deleteEmployee = async (req, res) => {
   if (req.user.rol !== 'admin') return res.status(403).json({ error: "Acceso denegado" });
 
@@ -63,8 +63,11 @@ exports.deleteEmployee = async (req, res) => {
 
     if (!employee) return res.status(404).json({ error: "Empleado no encontrado" });
 
+    // Eliminar los horarios asociados al empleado antes de eliminar el empleado
+    await Schedule.destroy({ where: { id_empleado: id } });
     await employee.destroy();
-    res.json({ message: "Empleado eliminado correctamente" });
+
+    res.json({ message: "Empleado y sus horarios eliminados correctamente" });
   } catch (error) {
     res.status(500).json({ error: "Error al eliminar empleado" });
   }

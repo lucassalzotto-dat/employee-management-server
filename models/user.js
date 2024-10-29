@@ -4,8 +4,8 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // Relación: un usuario tiene muchos empleados
-      User.hasMany(models.Employee, { foreignKey: 'id_usuario', as: 'employees' });
+      // Relación: un usuario tiene un solo empleado
+      User.hasOne(models.Employee, { foreignKey: 'id_usuario', as: 'employee' });
     }
   }
   User.init(

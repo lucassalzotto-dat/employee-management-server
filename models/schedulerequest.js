@@ -1,18 +1,13 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+// src/models/ScheduleRequest.js
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class ScheduleRequest extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      ScheduleRequest.belongsTo(models.Employee, { foreignKey: 'id_empleado', as: 'employee' });
     }
   }
+
   ScheduleRequest.init({
     id_empleado: DataTypes.INTEGER,
     fecha_solicitada: DataTypes.DATE,
@@ -23,5 +18,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'ScheduleRequest',
   });
+
   return ScheduleRequest;
 };
